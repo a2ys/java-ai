@@ -1,6 +1,6 @@
 package com.aayushshukla.chess;
 
-import com.aayushshukla.chess.Piece.Pieces;
+import com.aayushshukla.chess.piece.Pieces;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
