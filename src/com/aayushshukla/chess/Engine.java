@@ -1,8 +1,6 @@
 package com.aayushshukla.chess;
 
 import com.aayushshukla.chess.Piece.*;
-import com.ayushshukla.chess.Piece.*;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
