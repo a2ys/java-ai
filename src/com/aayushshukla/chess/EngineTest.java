@@ -7,9 +7,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class EngineTest {
-    Board board = new Board();
-    Engine engine = new Engine();
-    MoveGenerator moveGenerator = new MoveGenerator();
+    private final Board board = new Board();
+    private final Engine engine = new Engine();
+    private final MoveGenerator moveGenerator = new MoveGenerator();
 
     long totalMoves(int depth) throws KingCapturedError {
         Pieces[][] boardArray = board.getBoard();

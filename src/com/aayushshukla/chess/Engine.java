@@ -10,7 +10,7 @@ public class Engine {
     private final int[] blackKingPosition = new int[2];
     private HashMap<String, boolean[]> castleRights = new HashMap<>();
     private final ArrayList<Move> moveLog = new ArrayList<>();
-    MoveGenerator moveGenerator = new MoveGenerator();
+    private final MoveGenerator moveGenerator = new MoveGenerator();
     Board board;
 
 //    public int zobristHashBoard() {
@@ -505,7 +505,7 @@ public class Engine {
                                 Move move = new Move(new int[]{rank, file}, new int[]{rank, file - 2}, board);
                                 move.setMoveType("c");
                                 move.setExtraPiece(board[rank][file - 4]);
-                                move.setSpecialPos(new int[]{rank, file - 4});
+                                move.setSpecialPos(new int[]{rank, 0});
                                 moves.add(move);
                             }
                         }
@@ -536,7 +536,7 @@ public class Engine {
                                 Move move = new Move(new int[]{rank, file}, new int[]{rank, file - 2}, board);
                                 move.setMoveType("c");
                                 move.setExtraPiece(board[rank][file - 4]);
-                                move.setSpecialPos(new int[]{rank, file - 4});
+                                move.setSpecialPos(new int[]{rank, 0});
                                 moves.add(move);
                             }
                         }

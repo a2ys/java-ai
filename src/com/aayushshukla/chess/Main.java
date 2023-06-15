@@ -3,9 +3,9 @@ package com.aayushshukla.chess;
 import java.util.Scanner;
 
 public class Main {
-    protected static Board board = new Board();
-    protected static Engine engine = new Engine();
-    protected static Scanner scanner = new Scanner(System.in);
+    protected static final Board board = new Board();
+    protected static final Engine engine = new Engine();
+    protected static final Scanner scanner = new Scanner(System.in);
     protected static boolean running = true;
 
     public static void mainloop() throws KingCapturedError {

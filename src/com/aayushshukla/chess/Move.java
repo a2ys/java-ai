@@ -6,9 +6,10 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class Move {
-    protected int startRank, startFile, endRank, endFile;
+    protected final int startRank, startFile, endRank, endFile;
     protected int[] specialPos = new int[2];
-    protected Pieces pieceMoved, pieceCaptured, extraPiece;
+    protected final Pieces pieceMoved, pieceCaptured;
+    protected Pieces extraPiece;
     protected String moveType = "n";
 
     public Move(int[] startPos, int[] endPos, Pieces[][] board) {
