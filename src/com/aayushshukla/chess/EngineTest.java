@@ -77,49 +77,4 @@ class EngineTest {
 
         assertEquals(4865609L, totalMoves(5));
     }
-
-//    @Test
-//    @DisplayName("Testing for 6 plies")
-//    void testSixth() throws InvalidFENError, KingCapturedError {
-//        board.initialize(engine);
-//        engine.initialize();
-//
-//        assertEquals(119060324L, totalMoves(6));
-//    }
-//
-//    @Test
-//    @DisplayName("Testing for 7 plies")
-//    void testSeventh() throws InvalidFENError, KingCapturedError {
-//        board.initialize(engine);
-//        engine.initialize();
-//
-//        assertEquals(3195901860L, totalMoves(7));
-//    }
-//
-//    @Test
-//    @DisplayName("Testing for 8 plies")
-//    void testEighth() throws InvalidFENError, KingCapturedError {
-//        board.initialize(engine);
-//        engine.initialize();
-//
-//        assertEquals(84998978956L, totalMoves(8));
-//    }
-
-//    @Test
-//    @DisplayName("Testing for 9 plies")
-//    void testNinth() throws InvalidFENError, KingCapturedError {
-//        board.initialize(engine);
-//        engine.initialize();
-//
-//        assertEquals(2439530234167	, totalMoves(9));
-//    }
-//
-//    @Test
-//    @DisplayName("Testing for 10 plies")
-//    void testTenth() throws InvalidFENError, KingCapturedError {
-//        board.initialize(engine);
-//        engine.initialize();
-//
-//        assertEquals(69352859712417, totalMoves(10));
-//    }
 }
