@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import com.aayushshukla.chess.Move;
-;
 
 public class Pieces {
     private int rank, file;
