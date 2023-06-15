@@ -1,4 +1,4 @@
-package com.ayushshukla.chess.definitions;
+package com.aayushshukla.chess.definitions;
 
 public class MoveTypes {
     public static final int NORMAL = 2;

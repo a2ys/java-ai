@@ -1,4 +1,4 @@
-package com.ayushshukla.chess.definitions;
+package com.aayushshukla.chess.definitions;
 
 public class Colors {
     public static final int WHITE = 1;

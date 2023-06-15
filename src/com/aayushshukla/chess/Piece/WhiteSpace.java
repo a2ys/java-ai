@@ -1,4 +1,4 @@
-package com.ayushshukla.chess.Piece;
+package com.aayushshukla.chess.Piece;
 
 public class WhiteSpace extends Pieces {
     public WhiteSpace(int rank, int file) {

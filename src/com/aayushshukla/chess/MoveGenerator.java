@@ -1,5 +1,6 @@
-package com.ayushshukla.chess;
+package com.aayushshukla.chess;
 
+import com.aayushshukla.chess.Piece.*;
 import com.ayushshukla.chess.Piece.*;
 
 import java.util.ArrayList;

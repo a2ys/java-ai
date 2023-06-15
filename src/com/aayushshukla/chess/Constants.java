@@ -1,4 +1,4 @@
-package com.ayushshukla.chess;
+package com.aayushshukla.chess;
 
 public class Constants {
     public static final String initialFen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";

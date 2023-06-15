@@ -1,4 +1,4 @@
-package com.ayushshukla.chess.Enums;
+package com.aayushshukla.chess.Enums;
 
 public enum Color {
     WHITE(1),
