@@ -1,7 +1,6 @@
 package com.aayushshukla.chess;
 
 import com.aayushshukla.chess.Piece.*;
-import com.ayushshukla.chess.Piece.*;
 
 import java.util.HashMap;
 
@@ -45,7 +44,7 @@ public class Board {
                     case 'n' -> board[rank][file] = new Knight(rank, file, "black");
                     case 'r' -> board[rank][file] = new Rook(rank, file, "black");
                     case 'p' -> board[rank][file] = new Pawn(rank, file, "black");
-                    default -> {throw new InvalidFENError(Constants.invalidFENErrorMessage);}
+                    default -> throw new InvalidFENError(Constants.invalidFENErrorMessage);
                 }
                 file += 1;
             }
