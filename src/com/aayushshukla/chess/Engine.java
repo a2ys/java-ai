@@ -3,6 +3,7 @@ package com.aayushshukla.chess;
 import com.aayushshukla.chess.piece.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class Engine {
     private boolean whiteToMove;
@@ -12,19 +13,6 @@ public class Engine {
     private final ArrayList<Move> moveLog = new ArrayList<>();
     private final MoveGenerator moveGenerator = new MoveGenerator();
     Board board;
-
-//    public int zobristHashBoard() {
-//        int zobristHash = 0;
-//
-//        for (int i = 0; i < 8; i++) {
-//            for (int j = 0; j < 8; j++) {
-//                p =
-//            }
-//        }
-//
-//        return zobristHash;
-//    }
-
 
     public void initialize() {
         whiteToMove = true;
@@ -65,6 +53,7 @@ public class Engine {
 
                     if (move.getPieceCaptured() instanceof King) throw new KingCapturedError(Constants.kingCapturedErrorMessage);
 
+                    // Implement removal of castle rights after castling
                     if (move.getMoveType().equals("c")) {
                         if (move.getStartFile() - move.getEndFile() < 0) {
                             boardArray[move.getStartRank()][5] = boardArray[move.getStartRank()][7];
@@ -78,6 +67,12 @@ public class Engine {
                             boardArray[move.getStartRank()][3].setFile(3);
                             boardArray[move.getStartRank()][3].addToMoveHistory(move);
                             boardArray[move.getStartRank()][0] = new WhiteSpace(move.getStartRank(), 0);
+                        }
+                    } else if (move.getMoveType().equals("e")) {
+                        if (move.getPieceMoved().getColor().equals("white")) {
+                            boardArray[move.getEndRank() + 1][move.getEndFile()] = new WhiteSpace(move.getEndRank() + 1, move.getEndFile());
+                        } else if (move.getPieceMoved().getColor().equals("black")) {
+                            boardArray[move.getEndRank() - 1][move.getEndFile()] = new WhiteSpace(move.getEndRank() - 1, move.getEndFile());
                         }
                     }
 
@@ -126,6 +121,7 @@ public class Engine {
             board[lastMove.getStartRank()][lastMove.getStartFile()].setRank(lastMove.getStartRank());
             board[lastMove.getStartRank()][lastMove.getStartFile()].setFile(lastMove.getStartFile());
 
+            // Implement revival of castle rights once undo castling is performed
             if (lastMove.getMoveType().equals("c")) {
                 int specialRank = lastMove.getSpecialPos()[0];
                 int specialFile = lastMove.getSpecialPos()[1];
@@ -137,6 +133,10 @@ public class Engine {
                 board[specialRank][specialFile].setRank(specialRank);
                 board[specialRank][specialFile].setFile(specialFile);
                 board[specialRank][specialFile].undoLastMove();
+            } else if (lastMove.getMoveType().equals("e")) {
+                Pieces specialPiece = lastMove.getExtraPiece();
+
+                board[specialPiece.getRank()][specialPiece.getFile()] = specialPiece;
             }
 
             if (!testing) {
@@ -484,14 +484,16 @@ public class Engine {
         if (piece.getColor().equals("white")) {
             if (castleRights.get("white")[0]) {
                 if (rank == 7 && file == 4) {
-                    if (board[rank][file + 3] instanceof Rook && board[rank][file + 3].getColor().equals("white")) {
-                        if ((piece.getMoveHistory().size() == 0) && (board[rank][file + 3].getMoveHistory().size() == 0)) {
-                            if (!(inCheck("white", board)) && !(squareUnderAttack(rank, file + 1, "black", board)) && !(squareUnderAttack(rank, file + 2, "black", board))) {
-                                Move move = new Move(new int[]{rank, file}, new int[]{rank, file + 2}, board);
-                                move.setMoveType("c");
-                                move.setExtraPiece(board[rank][file + 3]);
-                                move.setSpecialPos(new int[]{rank, file + 3});
-                                moves.add(move);
+                    if (board[rank][file + 1] instanceof WhiteSpace && board[rank][file + 2] instanceof WhiteSpace) {
+                        if (board[rank][file + 3] instanceof Rook && board[rank][file + 3].getColor().equals("white")) {
+                            if ((piece.getMoveHistory().size() == 0) && (board[rank][file + 3].getMoveHistory().size() == 0)) {
+                                if (!(inCheck("white", board)) && !(squareUnderAttack(rank, file + 1, "black", board)) && !(squareUnderAttack(rank, file + 2, "black", board))) {
+                                    Move move = new Move(new int[]{rank, file}, new int[]{rank, file + 2}, board);
+                                    move.setMoveType("c");
+                                    move.setExtraPiece(board[rank][file + 3]);
+                                    move.setSpecialPos(new int[]{rank, file + 3});
+                                    moves.add(move);
+                                }
                             }
                         }
                     }
@@ -499,14 +501,16 @@ public class Engine {
             }
             if (castleRights.get("white")[1]) {
                 if (rank == 7 && file == 4) {
-                    if (board[rank][file - 4] instanceof Rook && board[rank][file - 4].getColor().equals("white")) {
-                        if ((piece.getMoveHistory().size() == 0) && (board[rank][file - 4].getMoveHistory().size() == 0)) {
-                            if (!(inCheck("white", board)) && !(squareUnderAttack(rank, file - 1, "black", board)) && !(squareUnderAttack(rank, file - 2, "black", board))) {
-                                Move move = new Move(new int[]{rank, file}, new int[]{rank, file - 2}, board);
-                                move.setMoveType("c");
-                                move.setExtraPiece(board[rank][file - 4]);
-                                move.setSpecialPos(new int[]{rank, 0});
-                                moves.add(move);
+                    if (board[rank][file - 1] instanceof WhiteSpace && board[rank][file - 2] instanceof WhiteSpace && board[rank][file - 3] instanceof WhiteSpace) {
+                        if (board[rank][file - 4] instanceof Rook && board[rank][file - 4].getColor().equals("white")) {
+                            if ((piece.getMoveHistory().size() == 0) && (board[rank][file - 4].getMoveHistory().size() == 0)) {
+                                if (!(inCheck("white", board)) && !(squareUnderAttack(rank, file - 1, "black", board)) && !(squareUnderAttack(rank, file - 2, "black", board))) {
+                                    Move move = new Move(new int[]{rank, file}, new int[]{rank, file - 2}, board);
+                                    move.setMoveType("c");
+                                    move.setExtraPiece(board[rank][file - 4]);
+                                    move.setSpecialPos(new int[]{rank, 0});
+                                    moves.add(move);
+                                }
                             }
                         }
                     }
@@ -515,14 +519,16 @@ public class Engine {
         } else if (piece.getColor().equals("black")) {
             if (castleRights.get("black")[0]) {
                 if (rank == 0 && file == 4) {
-                    if (board[rank][file + 3] instanceof Rook && board[rank][file + 3].getColor().equals("black")) {
-                        if ((piece.getMoveHistory().size() == 0) && (board[rank][file + 3].getMoveHistory().size() == 0)) {
-                            if (!(inCheck("black", board)) && !(squareUnderAttack(rank, file + 1, "white", board)) && !(squareUnderAttack(rank, file + 2, "white", board))) {
-                                Move move = new Move(new int[]{rank, file}, new int[]{rank, file + 2}, board);
-                                move.setMoveType("c");
-                                move.setExtraPiece(board[rank][file + 3]);
-                                move.setSpecialPos(new int[]{rank, file + 3});
-                                moves.add(move);
+                    if (board[rank][file + 1] instanceof WhiteSpace && board[rank][file + 2] instanceof WhiteSpace) {
+                        if (board[rank][file + 3] instanceof Rook && board[rank][file + 3].getColor().equals("black")) {
+                            if ((piece.getMoveHistory().size() == 0) && (board[rank][file + 3].getMoveHistory().size() == 0)) {
+                                if (!(inCheck("black", board)) && !(squareUnderAttack(rank, file + 1, "white", board)) && !(squareUnderAttack(rank, file + 2, "white", board))) {
+                                    Move move = new Move(new int[]{rank, file}, new int[]{rank, file + 2}, board);
+                                    move.setMoveType("c");
+                                    move.setExtraPiece(board[rank][file + 3]);
+                                    move.setSpecialPos(new int[]{rank, file + 3});
+                                    moves.add(move);
+                                }
                             }
                         }
                     }
@@ -530,14 +536,16 @@ public class Engine {
             }
             if (castleRights.get("black")[1]) {
                 if (rank == 0 && file == 4) {
-                    if (board[rank][file - 4] instanceof Rook && board[rank][file - 4].getColor().equals("black")) {
-                        if ((piece.getMoveHistory().size() == 0) && (board[rank][file - 4].getMoveHistory().size() == 0)) {
-                            if (!(inCheck("black", board)) && !(squareUnderAttack(rank, file - 1, "white", board)) && !(squareUnderAttack(rank, file - 2, "white", board))) {
-                                Move move = new Move(new int[]{rank, file}, new int[]{rank, file - 2}, board);
-                                move.setMoveType("c");
-                                move.setExtraPiece(board[rank][file - 4]);
-                                move.setSpecialPos(new int[]{rank, 0});
-                                moves.add(move);
+                    if (board[rank][file - 1] instanceof WhiteSpace && board[rank][file - 2] instanceof WhiteSpace && board[rank][file - 3] instanceof WhiteSpace) {
+                        if (board[rank][file - 4] instanceof Rook && board[rank][file - 4].getColor().equals("black")) {
+                            if ((piece.getMoveHistory().size() == 0) && (board[rank][file - 4].getMoveHistory().size() == 0)) {
+                                if (!(inCheck("black", board)) && !(squareUnderAttack(rank, file - 1, "white", board)) && !(squareUnderAttack(rank, file - 2, "white", board))) {
+                                    Move move = new Move(new int[]{rank, file}, new int[]{rank, file - 2}, board);
+                                    move.setMoveType("c");
+                                    move.setExtraPiece(board[rank][file - 4]);
+                                    move.setSpecialPos(new int[]{rank, 0});
+                                    moves.add(move);
+                                }
                             }
                         }
                     }
@@ -547,19 +555,53 @@ public class Engine {
 
         // En-passant
 
-//        if (moveLog.size() > 0) {
-//            if (piece instanceof Pawn) {
-//                if ((Objects.equals(piece.getColor(), "white")) && (piece.getRank() == 3)) {
-//                    if (file > 0) {
-//                        Pieces enemy = board[rank][file - 1];
-//                        if ((enemy instanceof Pawn) && (moveLog.get(moveLog.size() - 1).getPieceMoved() == enemy) && enemy.getMoveHistory().size() == 1) {
-//                            Move specialMove = new Move(new int[]{rank, file}, new int[]{rank, file - 1}, board);
-//                            specialMove.setMoveType();
-//                        }
-//                    }
-//                }
-//            }
-//        }
+        if (moveLog.size() > 0) {
+            if (piece instanceof Pawn) {
+                if ((Objects.equals(piece.getColor(), "white")) && (piece.getRank() == 3)) {
+                    if (file > 0) {
+                        Pieces enemy = board[rank][file - 1];
+                        if ((enemy instanceof Pawn) && (moveLog.get(moveLog.size() - 1).getPieceMoved() == enemy) && enemy.getMoveHistory().size() == 1) {
+                            Move specialMove = new Move(new int[]{rank, file}, new int[]{rank - 1, file - 1}, board);
+                            specialMove.setMoveType("e");
+                            specialMove.setExtraPiece(board[rank][file - 1]);
+                            specialMove.setSpecialPos(new int[]{rank, file - 1});
+                            moves.add(specialMove);
+                        }
+                    }
+                    if (file < 7) {
+                        Pieces enemy = board[rank][file + 1];
+                        if ((enemy instanceof Pawn) && (moveLog.get(moveLog.size() - 1).getPieceMoved() == enemy) && enemy.getMoveHistory().size() == 1) {
+                            Move specialMove = new Move(new int[]{rank, file}, new int[]{rank - 1, file + 1}, board);
+                            specialMove.setMoveType("e");
+                            specialMove.setExtraPiece(board[rank][file + 1]);
+                            specialMove.setSpecialPos(new int[]{rank, file + 1});
+                            moves.add(specialMove);
+                        }
+                    }
+                } else if ((Objects.equals(piece.getColor(), "black")) && (piece.getRank() == 4)) {
+                    if (file > 0) {
+                        Pieces enemy = board[rank][file - 1];
+                        if ((enemy instanceof Pawn) && (moveLog.get(moveLog.size() - 1).getPieceMoved() == enemy) && enemy.getMoveHistory().size() == 1) {
+                            Move specialMove = new Move(new int[]{rank, file}, new int[]{rank + 1, file - 1}, board);
+                            specialMove.setMoveType("e");
+                            specialMove.setExtraPiece(board[rank][file - 1]);
+                            specialMove.setSpecialPos(new int[]{rank, file - 1});
+                            moves.add(specialMove);
+                        }
+                    }
+                    if (file < 7) {
+                        Pieces enemy = board[rank][file + 1];
+                        if ((enemy instanceof Pawn) && (moveLog.get(moveLog.size() - 1).getPieceMoved() == enemy) && enemy.getMoveHistory().size() == 1) {
+                            Move specialMove = new Move(new int[]{rank, file}, new int[]{rank + 1, file + 1}, board);
+                            specialMove.setMoveType("e");
+                            specialMove.setExtraPiece(board[rank][file + 1]);
+                            specialMove.setSpecialPos(new int[]{rank, file + 1});
+                            moves.add(specialMove);
+                        }
+                    }
+                }
+            }
+        }
 
         return moves;
     }
