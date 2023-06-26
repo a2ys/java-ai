@@ -4,6 +4,8 @@ import com.aayushshukla.chess.piece.Pieces;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class EngineTest {
@@ -18,7 +20,9 @@ class EngineTest {
         for (Pieces[] rank : boardArray) {
             for (Pieces piece : rank) {
                 if (piece.getColor().equals(engine.getActivePlayer())) {
-                    for (Move ignored : engine.getLegalMoves(moveGenerator.pseudoLegalMoves(piece, boardArray), board, boardArray)) {
+                    ArrayList<Move> moves = engine.getLegalMoves(moveGenerator.pseudoLegalMoves(piece, boardArray), board, boardArray);
+                    moves.addAll(engine.specialMoves(piece, boardArray));
+                    for (Move ignored : moves) {
                         if (depth == 1) {
                             total += 1;
                         } else {
