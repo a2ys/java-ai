@@ -204,12 +204,19 @@ public class Engine {
 
         for (Pieces[] row: board) {
             for (Pieces piece: row) {
-                if (!piece.getColor().equals(color)) continue;
+                if (!piece.getColor().equals(color)) {
+                    continue;
+                }
 
                 ArrayList<Move> pseudoLegalMoves = moveGenerator.pseudoLegalMoves(piece, board);
                 ArrayList<Move> legalMoves = getLegalMoves(pseudoLegalMoves, getBoard(), board);
 
-                if (legalMoves.size() != 0) return false;
+                if (legalMoves.size() != 0) {
+                    for (Move move : legalMoves) {
+                        move.printInfo();
+                    }
+                    return false;
+                }
             }
         }
 
