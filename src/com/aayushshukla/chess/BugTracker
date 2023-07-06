@@ -1,7 +1,1 @@
-5 plies:
-    Expected :4865609
-    Actual   :4865351
-
-6 plies:
-    Expected :119060324
-    Actual   :119048441
+Checkmates are not being detected by the recursion tests, but are being detected on individual FEN strings and positions.
