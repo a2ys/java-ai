@@ -67,18 +67,6 @@ public class MoveGenerator {
             }
         }
 
-        for (Move move: moves) {
-            if ((move.getEndRank() > 7)
-                    || (move.getEndFile() > 7)
-                    || (move.getEndRank() < 0)
-                    || (move.getEndFile() < 0)) {
-                move.printInfo();
-            }
-            if (Objects.equals(move.getPieceCaptured().getColor(), piece.getColor())) {
-                move.printInfo();
-            }
-        }
-
         return moves;
     }
 
@@ -135,18 +123,6 @@ public class MoveGenerator {
             }
         }
 
-        for (Move move: moves) {
-            if ((move.getEndRank() > 7)
-                    || (move.getEndFile() > 7)
-                    || (move.getEndRank() < 0)
-                    || (move.getEndFile() < 0)) {
-                move.printInfo();
-            }
-            if (Objects.equals(move.getPieceCaptured().getColor(), piece.getColor())) {
-                move.printInfo();
-            }
-        }
-
         return moves;
     }
 
@@ -200,18 +176,6 @@ public class MoveGenerator {
                 if (!(board[rank + 1][file + 1] instanceof WhiteSpace) && !(board[rank + 1][file + 1].getColor().equals(piece.getColor()))) {
                     moves.add(new Move(new int[]{rank, file}, new int[]{rank + 1, file + 1}, board));
                 }
-            }
-        }
-
-        for (Move move: moves) {
-            if ((move.getEndRank() > 7)
-                    || (move.getEndFile() > 7)
-                    || (move.getEndRank() < 0)
-                    || (move.getEndFile() < 0)) {
-                move.printInfo();
-            }
-            if (Objects.equals(move.getPieceCaptured().getColor(), piece.getColor())) {
-                move.printInfo();
             }
         }
 
@@ -275,19 +239,6 @@ public class MoveGenerator {
             }
         }
 
-        for (Move move: moves) {
-            if ((move.getEndRank() > 7)
-                || (move.getEndFile() > 7)
-                || (move.getEndRank() < 0)
-                || (move.getEndFile() < 0)) {
-                move.printInfo();
-            }
-
-            if (Objects.equals(move.getPieceCaptured().getColor(), piece.getColor())) {
-                move.printInfo();
-            }
-        }
-
         return moves;
     }
 
@@ -296,18 +247,6 @@ public class MoveGenerator {
 
         moves = diagonalMoves(piece, board);
         moves.addAll(straightMoves(piece, board));
-
-        for (Move move: moves) {
-            if ((move.getEndRank() > 7)
-                    || (move.getEndFile() > 7)
-                    || (move.getEndRank() < 0)
-                    || (move.getEndFile() < 0)) {
-                move.printInfo();
-            }
-            if (Objects.equals(move.getPieceCaptured().getColor(), piece.getColor())) {
-                move.printInfo();
-            }
-        }
 
         return moves;
     }
@@ -362,18 +301,6 @@ public class MoveGenerator {
         if (file - 1 >= 0) {
             if (!(board[rank][file - 1].getColor().equals(piece.getColor()))) {
                 moves.add(new Move(new int[]{rank, file}, new int[]{rank, file - 1}, board));
-            }
-        }
-
-        for (Move move: moves) {
-            if ((move.getEndRank() > 7)
-                    || (move.getEndFile() > 7)
-                    || (move.getEndRank() < 0)
-                    || (move.getEndFile() < 0)) {
-                move.printInfo();
-            }
-            if (Objects.equals(move.getPieceCaptured().getColor(), piece.getColor())) {
-                move.printInfo();
             }
         }
 
