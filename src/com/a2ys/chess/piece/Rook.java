@@ -1,4 +1,4 @@
-package com.aayushshukla.chess.piece;
+package com.a2ys.chess.piece;
 
 import java.util.Objects;
 

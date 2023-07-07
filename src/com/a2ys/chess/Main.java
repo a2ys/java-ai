@@ -1,4 +1,4 @@
-package com.aayushshukla.chess;
+package com.a2ys.chess;
 
 import java.util.Scanner;
 

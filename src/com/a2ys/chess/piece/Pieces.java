@@ -1,9 +1,9 @@
-package com.aayushshukla.chess.piece;
+package com.a2ys.chess.piece;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
-import com.aayushshukla.chess.Move;
+import com.a2ys.chess.Move;
 
 public class Pieces {
     private int rank, file;

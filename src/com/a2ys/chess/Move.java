@@ -1,6 +1,6 @@
-package com.aayushshukla.chess;
+package com.a2ys.chess;
 
-import com.aayushshukla.chess.piece.Pieces;
+import com.a2ys.chess.piece.Pieces;
 
 import java.util.Arrays;
 import java.util.Objects;
