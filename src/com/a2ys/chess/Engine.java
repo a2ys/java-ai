@@ -212,9 +212,6 @@ public class Engine {
                 ArrayList<Move> legalMoves = getLegalMoves(pseudoLegalMoves, getBoard(), board);
 
                 if (legalMoves.size() != 0) {
-                    for (Move move : legalMoves) {
-                        move.printInfo();
-                    }
                     return false;
                 }
             }
