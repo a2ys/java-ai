@@ -58,7 +58,7 @@ class EngineTest {
 
                                         for (Move zeroIgnored : zeroMoves) {
                                             engine.makeMove(zeroIgnored, false, board, zeroBoardArray);
-                                            if (engine.isCheckmate(zeroPiece.getColor(), zeroBoardArray)) {
+                                            if (engine.isCheckmate(zeroPiece.oppositeColor(), zeroBoardArray)) {
                                                 System.out.println("found a checkmate");
                                                 totalCheckmates += 1;
                                             }
