@@ -40,7 +40,7 @@ public class Engine {
                 ArrayList<Move> pseudoLegalMoves = moveGenerator.pseudoLegalMoves(piece, boardArray);
                 ArrayList<Move> legalMoves = getLegalMoves(pseudoLegalMoves, board, boardArray);
 
-                if (legalMoves.size() == 0) System.out.println("Here is a checkmate!");
+//                if (legalMoves.size() == 0) System.out.println("Here is a checkmate!");
 
                 legalMoves.addAll(specialMoves(piece, boardArray));
 
