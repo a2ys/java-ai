@@ -15,7 +15,7 @@ class EngineTest {
 
     long totalMoves(int depth) throws KingCapturedError {
         Pieces[][] boardArray = board.getBoard();
-        int total = 0;
+        long total = 0;
 
         for (Pieces[] rank : boardArray) {
             for (Pieces piece : rank) {
@@ -37,9 +37,10 @@ class EngineTest {
         return total;
     }
 
-    long totalCheckmates(int depth) throws KingCapturedError {
+    @Deprecated
+    long totalCheckmatesDeprecated(int depth) throws KingCapturedError {
         Pieces[][] boardArray = board.getBoard();
-        int totalCheckmates = 0;
+        long totalCheckmates = 0;
 
         for (Pieces[] rank : boardArray) {
             for (Pieces piece : rank) {
@@ -78,38 +79,73 @@ class EngineTest {
         }
         return totalCheckmates;
     }
+
+    long totalCheckmates(int depth) throws KingCapturedError {
+        Pieces[][] boardArray = board.getBoard();
+        long total = 0;
+
+        if (depth == 0) {
+            if (engine.isCheckmate(engine.getActivePlayer(), boardArray)) {
+                total += 1;
+
+                return total;
+            }
+        }
+
+        for (Pieces[] rank : boardArray) {
+            for (Pieces piece : rank) {
+                if (piece.getColor().equals(engine.getActivePlayer())) {
+                    ArrayList<Move> moves = engine.getLegalMoves(moveGenerator.pseudoLegalMoves(piece, boardArray), board, boardArray);
+                    moves.addAll(engine.specialMoves(piece, boardArray));
+                    for (Move ignored : moves) {
+                        if (depth == 0) {
+                            if (engine.isCheckmate(engine.getActivePlayer(), boardArray)) {
+                                System.out.println("Found a checkmate!");
+                                total += 1;
+                            }
+                        } else {
+                            engine.makeMove(ignored, false, board, boardArray);
+                            total += totalCheckmates(depth - 1);
+                            engine.undoMove(false, boardArray);
+                        }
+                    }
+                }
+            }
+        }
+        return total;
+    }
     
-//    @Test
-//    @DisplayName("Testing for 1 ply")
-//    void testFirst() throws InvalidFENError, KingCapturedError {
-//        board.initialize(engine);
-//        engine.initialize();
-//
-////        assertEquals(20L, totalMoves(1));
-//        assertEquals(0L, totalCheckmates(1));
-//    }
-//
-//    @Test
-//    @DisplayName("Testing for 2 plies")
-//    void testSecond() throws InvalidFENError, KingCapturedError {
-//        board.initialize(engine);
-//        engine.initialize();
-//
-////        assertEquals(400L, totalMoves(2));
-//        assertEquals(0L, totalCheckmates(2));
-//
-//    }
-//
-//    @Test
-//    @DisplayName("Testing for 3 plies")
-//    void testThird() throws InvalidFENError, KingCapturedError {
-//        board.initialize(engine);
-//        engine.initialize();
-//
-////        assertEquals(8902L, totalMoves(3));
-//        assertEquals(0L, totalCheckmates(3));
-//    }
-//
+    @Test
+    @DisplayName("Testing for 1 ply")
+    void testFirst() throws InvalidFENError, KingCapturedError {
+        board.initialize(engine);
+        engine.initialize();
+
+//        assertEquals(20L, totalMoves(1));
+        assertEquals(0L, totalCheckmates(1));
+    }
+
+    @Test
+    @DisplayName("Testing for 2 plies")
+    void testSecond() throws InvalidFENError, KingCapturedError {
+        board.initialize(engine);
+        engine.initialize();
+
+//        assertEquals(400L, totalMoves(2));
+        assertEquals(0L, totalCheckmates(2));
+
+    }
+
+    @Test
+    @DisplayName("Testing for 3 plies")
+    void testThird() throws InvalidFENError, KingCapturedError {
+        board.initialize(engine);
+        engine.initialize();
+
+//        assertEquals(8902L, totalMoves(3));
+        assertEquals(0L, totalCheckmates(3));
+    }
+
     @Test
     @DisplayName("Testing for 4 plies")
     void testFourth() throws InvalidFENError, KingCapturedError {
@@ -120,15 +156,16 @@ class EngineTest {
         assertEquals(8L, totalCheckmates(4));
     }
 
-//    @Test
-//    @DisplayName("Testing for 5 plies")
-//    void testFifth() throws InvalidFENError, KingCapturedError {
-//        board.initialize(engine);
-//        engine.initialize();
-//
+    @Test
+    @DisplayName("Testing for 5 plies")
+    void testFifth() throws InvalidFENError, KingCapturedError {
+        board.initialize(engine);
+        engine.initialize();
+
 //        assertEquals(4865609L, totalMoves(5));
-//    }
-//
+        assertEquals(347L, totalCheckmates(5));
+    }
+
 //    @Test
 //    @DisplayName("Testing for 6 plies")
 //    void testSixth() throws InvalidFENError, KingCapturedError {
