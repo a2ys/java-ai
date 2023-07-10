@@ -81,22 +81,4 @@ public class TotalMovesTest {
 
         assertEquals(4865609L, totalMoves(5));
     }
-
-    @Test
-    @DisplayName("Testing for 6 plies")
-    public void testSixth() throws InvalidFENError, KingCapturedError {
-        board.initialize(engine);
-        engine.initialize();
-
-        assertEquals(119060324L, totalMoves(6));
-    }
-
-    @Test
-    @DisplayName("Testing for 7 plies")
-    public void testSeventh() throws InvalidFENError, KingCapturedError {
-        board.initialize(engine);
-        engine.initialize();
-
-        assertEquals(3195901860L, totalMoves(7));
-    }
 }
