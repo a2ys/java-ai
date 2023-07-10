@@ -21,7 +21,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Build with Maven
-        run: mvn -f "pom.xml" clean install
+        run: mvn -f ".\pom.xml" clean install
 
       - name: Run Tests
-        run: mvn -f "pom.xml" test
+        run: mvn -f ".\pom.xml" test
