@@ -3,7 +3,6 @@ package com.a2ys.chess;
 import com.a2ys.chess.piece.*;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class MoveGenerator {
     private ArrayList<Move> diagonalMoves(Pieces piece, Pieces[][] board) {
