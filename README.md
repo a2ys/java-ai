@@ -1,4 +1,4 @@
-# java-ai
+# Java AI for Chess
 
 ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/a2ys/java-ai/java_tests.yml?style=flat-square)
 ![GitHub Repo stars](https://img.shields.io/github/stars/a2ys/java-ai?style=flat-square)
