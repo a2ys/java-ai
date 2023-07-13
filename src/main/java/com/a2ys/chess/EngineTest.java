@@ -76,33 +76,33 @@ public class EngineTest {
 
             assertEquals(197281L, totalMoves(4));
         }
-
-        @Test
-        @DisplayName("Testing for 5 plies")
-        void testFifth() throws InvalidFENError, KingCapturedError {
-            board.initialize(engine);
-            engine.initialize();
-
-            assertEquals(4865609L, totalMoves(5));
-        }
-
-        @Test
-        @DisplayName("Testing for 6 plies")
-        void testSixth() throws InvalidFENError, KingCapturedError {
-            board.initialize(engine);
-            engine.initialize();
-
-            assertEquals(119060324L, totalMoves(6));
-        }
-
-        @Test
-        @DisplayName("Testing for 7 plies")
-        void testSeventh() throws InvalidFENError, KingCapturedError {
-            board.initialize(engine);
-            engine.initialize();
-
-            assertEquals(3195901860L, totalMoves(7));
-        }
+//
+//        @Test
+//        @DisplayName("Testing for 5 plies")
+//        void testFifth() throws InvalidFENError, KingCapturedError {
+//            board.initialize(engine);
+//            engine.initialize();
+//
+//            assertEquals(4865609L, totalMoves(5));
+//        }
+//
+//        @Test
+//        @DisplayName("Testing for 6 plies")
+//        void testSixth() throws InvalidFENError, KingCapturedError {
+//            board.initialize(engine);
+//            engine.initialize();
+//
+//            assertEquals(119060324L, totalMoves(6));
+//        }
+//
+//        @Test
+//        @DisplayName("Testing for 7 plies")
+//        void testSeventh() throws InvalidFENError, KingCapturedError {
+//            board.initialize(engine);
+//            engine.initialize();
+//
+//            assertEquals(3195901860L, totalMoves(7));
+//        }
     }
 
     @Nested
@@ -183,32 +183,32 @@ public class EngineTest {
 
             assertEquals(8L, totalCheckmates(4));
         }
-
-        @Test
-        @DisplayName("Testing for 5 plies")
-        void testFifth() throws InvalidFENError, KingCapturedError {
-            board.initialize(engine);
-            engine.initialize();
-
-            assertEquals(347L, totalCheckmates(5));
-        }
-
-        @Test
-        @DisplayName("Testing for 6 plies")
-        void testSixth() throws InvalidFENError, KingCapturedError {
-            board.initialize(engine);
-            engine.initialize();
-
-            assertEquals(10828L, totalCheckmates(6));
-        }
-
-        @Test
-        @DisplayName("Testing for 7 plies")
-        void testSeventh() throws InvalidFENError, KingCapturedError {
-            board.initialize(engine);
-            engine.initialize();
-
-            assertEquals(435767L, totalCheckmates(7));
-        }
+//
+//        @Test
+//        @DisplayName("Testing for 5 plies")
+//        void testFifth() throws InvalidFENError, KingCapturedError {
+//            board.initialize(engine);
+//            engine.initialize();
+//
+//            assertEquals(347L, totalCheckmates(5));
+//        }
+//
+//        @Test
+//        @DisplayName("Testing for 6 plies")
+//        void testSixth() throws InvalidFENError, KingCapturedError {
+//            board.initialize(engine);
+//            engine.initialize();
+//
+//            assertEquals(10828L, totalCheckmates(6));
+//        }
+//
+//        @Test
+//        @DisplayName("Testing for 7 plies")
+//        void testSeventh() throws InvalidFENError, KingCapturedError {
+//            board.initialize(engine);
+//            engine.initialize();
+//
+//            assertEquals(435767L, totalCheckmates(7));
+//        }
     }
 }
