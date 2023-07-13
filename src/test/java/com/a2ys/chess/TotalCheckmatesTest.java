@@ -93,4 +93,13 @@ public class TotalCheckmatesTest {
 
         assertEquals(347L, totalCheckmates(5));
     }
+
+    @Test
+    @DisplayName("Testing for 6 plies")
+    void testSixth() throws InvalidFENError, KingCapturedError {
+        board.initialize(engine);
+        engine.initialize();
+
+        assertEquals(10828L, totalCheckmates(6));
+    }
 }
