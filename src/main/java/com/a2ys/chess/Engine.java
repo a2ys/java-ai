@@ -1,9 +1,8 @@
 package com.a2ys.chess;
 
 import com.a2ys.chess.piece.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Objects;
+
+import java.util.*;
 
 public class Engine {
     private boolean whiteToMove;
@@ -12,6 +11,8 @@ public class Engine {
     private HashMap<String, boolean[]> castleRights = new HashMap<>();
     private final ArrayList<Move> moveLog = new ArrayList<>();
     private final MoveGenerator moveGenerator = new MoveGenerator();
+    public static List<List<List<Integer>>> ZobristTable = new ArrayList<>();
+    private boolean lol = false;
     Board board;
 
     public void initialize() {
@@ -23,6 +24,9 @@ public class Engine {
 
         castleRights.put("white", new boolean[]{true, true});
         castleRights.put("black", new boolean[]{true, true});
+
+        initializeZob();
+        initTable();
     }
 
     public boolean makeMove(Move move, boolean testing, Board board, Pieces[][] boardArray) throws KingCapturedError {
@@ -87,6 +91,13 @@ public class Engine {
                     if (move.getPieceMoved().getColor().equals(move.getPieceCaptured().getColor())) System.out.println("This move was illegal!");
 
                     moveLog.add(move);
+
+                    int hashValue = computeHash(boardArray);
+
+                    if (lol) {
+                        System.out.println(hashValue);
+                    }
+
                     whiteToMove = !whiteToMove;
                 }
             } else {
@@ -608,6 +619,69 @@ public class Engine {
         }
 
         return moves;
+    }
+
+    public static void initializeZob() {
+        for (int i = 0; i < 8; i++) {
+            ZobristTable.add(new ArrayList<>());
+            for (int j = 0; j < 8; j++) {
+                ZobristTable.get(i).add(new ArrayList<>());
+                for (int k = 0; k < 12; k++) {
+                    ZobristTable.get(i).get(j).add(0);
+                }
+            }
+        }
+    }
+
+    public static long randomLong() {
+        long min = 0L;
+        long max = (long) Math.pow(2, 64);
+        Random rnd = new Random();
+        return rnd.nextLong() * (max - min) + min;
+    }
+
+    public static void initTable() {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                for (int k = 0; k < 12; k++) {
+                    ZobristTable.get(i).get(j).set(k, (int) randomLong());
+                }
+            }
+        }
+    }
+
+    public static int zobIndexOf(Pieces piece)
+    {
+        return switch (piece.getAlpha()) {
+            case "P" -> 0;
+            case "N" -> 1;
+            case "B" -> 2;
+            case "R" -> 3;
+            case "Q" -> 4;
+            case "K" -> 5;
+            case "p" -> 6;
+            case "n" -> 7;
+            case "b" -> 8;
+            case "r" -> 9;
+            case "q" -> 10;
+            case "k" -> 11;
+            default -> -1;
+        };
+    }
+
+    public static int computeHash(Pieces[][] board) {
+        int zobHash = 0;
+
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                Pieces piece = board[i][j];
+                if (!piece.getColor().equals("empty")) {
+                    zobHash ^= ZobristTable.get(i).get(j).get(zobIndexOf(piece));
+                }
+            }
+        }
+
+        return zobHash;
     }
 
     private Board getBoard() {
