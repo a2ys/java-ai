@@ -13,6 +13,7 @@ public class Engine {
     private final MoveGenerator moveGenerator = new MoveGenerator();
     public static List<List<List<Integer>>> ZobristTable = new ArrayList<>();
     private boolean lol = false;
+    private HashMap<Integer, ArrayList<ArrayList<ArrayList<Move>>>> moveListWithHash = new HashMap<>();
     Board board;
 
     public void initialize() {
@@ -686,5 +687,24 @@ public class Engine {
 
     private Board getBoard() {
         return board;
+    }
+
+    private ArrayList<ArrayList<ArrayList<Move>>> getLegalMoves(Pieces[][] boardArray, Board board) throws KingCapturedError {
+        ArrayList<ArrayList<ArrayList<Move>>> allLegalMoves = new ArrayList<>();
+        String activePlayer = getActivePlayer();
+
+        for (int i = 0; i < 8; i++) {
+            ArrayList<ArrayList<Move>> rowMoves = new ArrayList<>();
+            for (int j = 0; j < 8; j++) {
+                Pieces piece = boardArray[i][j];
+                ArrayList<Move> pieceMoves = new ArrayList<>();
+                if (piece.getColor().equals(activePlayer)) {
+                    pieceMoves = getLegalMoves(moveGenerator.pseudoLegalMoves(piece, boardArray), board, boardArray);
+                }
+                rowMoves.add(j, pieceMoves);
+            }
+            allLegalMoves.add(i, rowMoves);
+        }
+        return allLegalMoves;
     }
 }
